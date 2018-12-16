@@ -13,7 +13,7 @@ var path = require('path'),
  */
 exports.create = function (req, res) {
   var questTemplate = new QuestTemplate(req.body);
-  questTemplate.user = req.user.id;
+  questTemplate.userId = req.user._id;
 
   questTemplate.save(function (err) {
     if (err) {
@@ -35,44 +35,48 @@ exports.read = function (req, res) {
 
   // Add a custom field to the Article, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Article model.
-  questTemplate.isCurrentUserOwner = !!(req.user && questTemplate.user && questTemplate.user._id.toString() === req.user._id.toString());
+  questTemplate.isCurrentUserOwner = !!(req.user && questTemplate.userId === req.user._id.toString());
 
   res.json(questTemplate);
 };
 
 /**
- * Update an article
+ * Update an questTemplate
  */
 exports.update = function (req, res) {
-  var article = req.article;
+  var questTemplate = req.questTemplate;
 
-  article.title = req.body.title;
-  article.content = req.body.content;
+  questTemplate.isDefault = req.body.isDefault;
+  questTemplate.type = req.body.type;
+  questTemplate.subject = req.body.subject;
+  questTemplate.title = req.body.title;
+  questTemplate.discription = req.body.discription;
+  questTemplate.questionNumber = req.body.questionNumber;
 
-  article.save(function (err) {
+  questTemplate.save(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(questTemplate);
     }
   });
 };
 
 /**
- * Delete an article
+ * Delete an questTemplate
  */
 exports.delete = function (req, res) {
-  var article = req.article;
+  var questTemplate = req.questTemplate;
 
-  article.remove(function (err) {
+  questTemplate.remove(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(questTemplate);
     }
   });
 };
@@ -81,37 +85,37 @@ exports.delete = function (req, res) {
  * List of Articles
  */
 exports.list = function (req, res) {
-  QuestTemplate.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
+  QuestTemplate.find().sort('-created').populate('user', 'displayName').exec(function (err, questTemplates) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(articles);
+      res.json(questTemplates);
     }
   });
 };
 
 /**
- * Article middleware
+ * QuestTemplate middleware
  */
-exports.articleByID = function (req, res, next, id) {
+exports.questTemplateByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Article is invalid'
+      message: 'QuestTemplate is invalid'
     });
   }
 
-  QuestTemplate.findById(id).populate('user', 'displayName').exec(function (err, article) {
+  QuestTemplate.findById(id).populate('user', 'displayName').exec(function (err, questTemplates) {
     if (err) {
       return next(err);
-    } else if (!article) {
+    } else if (!questTemplates) {
       return res.status(404).send({
         message: 'No article with that identifier has been found'
       });
     }
-    req.article = article;
+    req.questTemplates = questTemplates;
     next();
   });
 };

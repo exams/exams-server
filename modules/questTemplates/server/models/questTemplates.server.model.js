@@ -29,11 +29,15 @@ var QuestTemplateSchema = new Schema({
     trim: true,
     required: 'type cannot be blank'
   },
-  name: {
+  title: {
     type: String,
     default: '',
     trim: true,
     required: 'name cannot be blank'
+  },
+  discription: {
+    type: String,
+    default: ''
   },
   questionNumber: {
     type: Number
