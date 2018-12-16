@@ -9,6 +9,7 @@ var config = require('../config'),
   logger = require('./logger'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
+  expressJwt = require('express-jwt'),
   MongoStore = require('connect-mongo')(session),
   favicon = require('serve-favicon'),
   compress = require('compression'),
@@ -128,6 +129,36 @@ module.exports.initSession = function (app, db) {
 };
 
 /**
+ * Configure Express session
+ */
+module.exports.initJwtToken = function (app) {
+  var privateKey = "SuperExams";
+  app.use(expressJwt({
+    secret: privateKey
+  }).unless({
+    path: ['/api/auth/signin']
+  }));
+  app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).send('invalid token...');
+    }
+  });
+};
+module.exports.initCsrf = function (app){
+  //allow custom header and CORS
+  app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method == 'OPTIONS') {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+  });
+}
+/**
  * Invoke modules server configuration
  */
 module.exports.initModulesConfiguration = function (app) {
@@ -240,7 +271,12 @@ module.exports.init = function (db) {
   this.initModulesClientRoutes(app);
 
   // Initialize Express session
-  this.initSession(app, db);
+  // this.initSession(app, db);
+
+  // Initialize Json Web Token
+  this.initJwtToken(app);
+
+  this.initCsrf(app);
 
   // Initialize Modules configuration
   this.initModulesConfiguration(app);
