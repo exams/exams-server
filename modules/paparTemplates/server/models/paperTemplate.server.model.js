@@ -56,11 +56,11 @@ PaperTemplateSchema.statics.seed = seed;
 mongoose.model('PaperTemplate', PaperTemplateSchema);
 
 /**
-* Seeds the User collection with document (Article)
+* Seeds the User collection with document (PaperTemplateSchema)
 * and provided options.
 */
 function seed(doc, options) {
-  var Article = mongoose.model('Article');
+  var PaperTemplate = mongoose.model('PaperTemplate');
 
   return new Promise(function (resolve, reject) {
 
@@ -100,7 +100,7 @@ function seed(doc, options) {
 
     function skipDocument() {
       return new Promise(function (resolve, reject) {
-        Article
+        PaperTemplate
           .findOne({
             title: doc.title
           })
@@ -138,15 +138,15 @@ function seed(doc, options) {
           });
         }
 
-        var article = new Article(doc);
+        var paperTemplate = new PaperTemplate(doc);
 
-        article.save(function (err) {
+        paperTemplate.save(function (err) {
           if (err) {
             return reject(err);
           }
 
           return resolve({
-            message: 'Database Seeding: Article\t' + article.title + ' added'
+            message: 'Database Seeding: Article\t' + paperTemplate.title + ' added'
           });
         });
       });

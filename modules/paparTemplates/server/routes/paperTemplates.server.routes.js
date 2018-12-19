@@ -3,21 +3,21 @@
 /**
  * Module dependencies
  */
-var articlesPolicy = require('../policies/paperTemplates.server.policy'),
-  articles = require('../controllers/paperTemplates.server.controller');
+var paperTemplatesPolicy = require('../policies/paperTemplates.server.policy'),
+  paperTemplates = require('../controllers/paperTemplates.server.controller');
 
 module.exports = function (app) {
   // Articles collection routes
-  app.route('/api/articles').all(articlesPolicy.isAllowed)
-    .get(articles.list)
-    .post(articles.create);
+  app.route('/api/paperTemplates').all(paperTemplatesPolicy.isAllowed)
+    .get(paperTemplates.list)
+    .post(paperTemplates.create);
 
   // Single article routes
-  app.route('/api/articles/:articleId').all(articlesPolicy.isAllowed)
-    .get(articles.read)
-    .put(articles.update)
-    .delete(articles.delete);
+  app.route('/api/articles/:paperTemplateId').all(paperTemplatesPolicy.isAllowed)
+    .get(paperTemplates.read)
+    .put(paperTemplates.update)
+    .delete(paperTemplates.delete);
 
   // Finish by binding the article middleware
-  app.param('articleId', articles.articleByID);
+  app.param('paperTemplateId', paperTemplates.paperTemplateByID);
 };

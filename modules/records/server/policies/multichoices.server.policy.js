@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Multichoices Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/multichoices',
       permissions: '*'
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/multichoices/:multichoiceId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/paperTemplates',
-      permissions: ['get']
+      resources: '/api/multichoices',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/multichoices/:multichoiceId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/multichoices',
       permissions: ['get']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/multichoices/:multichoiceId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Multichoices Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an paperTemplate is being processed and the current user created it then allow any manipulation
-  if (req.paperTemplate && req.user && req.paperTemplate.userId === req.user.id) {
+  // If an Multichoice is being processed and the current user created it then allow any manipulation
+  if (req.multichoice && req.user && req.multichoice.user && req.multichoice.user.id === req.user.id) {
     return next();
   }
 

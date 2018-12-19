@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Singlechoices Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/singlechoices',
       permissions: '*'
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/singlechoices/:singlechoiceId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/paperTemplates',
-      permissions: ['get']
+      resources: '/api/singlechoices',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/singlechoices/:singlechoiceId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/singlechoices',
       permissions: ['get']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/singlechoices/:singlechoiceId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Singlechoices Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an paperTemplate is being processed and the current user created it then allow any manipulation
-  if (req.paperTemplate && req.user && req.paperTemplate.userId === req.user.id) {
+  // If an Singlechoice is being processed and the current user created it then allow any manipulation
+  if (req.singlechoice && req.user && req.singlechoice.user && req.singlechoice.user.id === req.user.id) {
     return next();
   }
 

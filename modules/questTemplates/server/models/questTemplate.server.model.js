@@ -33,9 +33,9 @@ var QuestTemplateSchema = new Schema({
     type: String,
     default: '',
     trim: true,
-    required: 'name cannot be blank'
+    required: 'title cannot be blank'
   },
-  discription: {
+  description: {
     type: String,
     default: ''
   },
@@ -56,7 +56,7 @@ mongoose.model('QuestTemplate', QuestTemplateSchema);
 * and provided options.
 */
 function seed(doc, options) {
-  var Article = mongoose.model('Article');
+  var QuestTemplate = mongoose.model('QuestTemplate');
 
   return new Promise(function (resolve, reject) {
 
@@ -96,7 +96,7 @@ function seed(doc, options) {
 
     function skipDocument() {
       return new Promise(function (resolve, reject) {
-        Article
+        QuestTemplate
           .findOne({
             title: doc.title
           })
@@ -113,7 +113,7 @@ function seed(doc, options) {
               return resolve(true);
             }
 
-            // Remove Article (overwrite)
+            // Remove QuestTemplate (overwrite)
 
             existing.remove(function (err) {
               if (err) {
@@ -134,15 +134,15 @@ function seed(doc, options) {
           });
         }
 
-        var article = new Article(doc);
+        var questTemplate = new QuestTemplate(doc);
 
-        article.save(function (err) {
+        questTemplate.save(function (err) {
           if (err) {
             return reject(err);
           }
 
           return resolve({
-            message: 'Database Seeding: Article\t' + article.title + ' added'
+            message: 'Database Seeding: Article\t' + questTemplate.title + ' added'
           });
         });
       });

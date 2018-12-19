@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Judges Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/judges',
       permissions: '*'
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/judges/:judgeId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/paperTemplates',
-      permissions: ['get']
+      resources: '/api/judges',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/judges/:judgeId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/judges',
       permissions: ['get']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/judges/:judgeId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Judges Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an paperTemplate is being processed and the current user created it then allow any manipulation
-  if (req.paperTemplate && req.user && req.paperTemplate.userId === req.user.id) {
+  // If an Judge is being processed and the current user created it then allow any manipulation
+  if (req.judge && req.user && req.judge.user && req.judge.user.id === req.user.id) {
     return next();
   }
 

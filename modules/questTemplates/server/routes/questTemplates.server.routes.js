@@ -19,5 +19,5 @@ module.exports = function (app) {
     .delete(questTemplates.delete);
 
   // Finish by binding the article middleware
-  app.param('articleId', questTemplates.articleByID);
+  app.param('questTemplateId', questTemplates.questTemplateByID);
 };

@@ -117,6 +117,32 @@ module.exports = {
           content: 'This is a seeded Article for the development environment'
         }
       }]
+    }, {
+      model: 'QuestTemplate',
+      options: { logResults: true },
+      skip: {
+        when: {} // Mongoose qualified query
+      },
+      docs: [{
+        data: {
+          "isDefault": true,
+          "subject": "English",
+          "type": "ListenChoose",
+          "title": "听力选择",
+          "description": "听力选择",
+          "questionNumber": 0
+        }
+      },{
+        data: {
+          "isDefault": true,
+          "subject": "English",
+          "type": "BlankReadingChoose",
+          "title": "短文选择填空",
+          "description": "听力短文选择填空",
+          "questionNumber": 10
+        }
+      }
+      ]
     }]
   }
 };
