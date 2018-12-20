@@ -26,13 +26,7 @@ var SinglechoiceSchema = new Schema({
     type: Boolean,
     default: false
   },
-  year: {
-    type: Number,
-    required: function() {
-      return this.isReal;
-    }
-  },
-  month: {
+  date: {
     type: Number,
     required: function() {
       return this.isReal;
@@ -58,13 +52,13 @@ var SinglechoiceSchema = new Schema({
       return this.isMixSub;
     }
   },
-  choiceItems: ['ChoiceItemSchema'],
-  answer: {
-    type: String
+  choiceItems: {
+    type: Array,
+    required: true
   },
-  created: {
-    type: Date,
-    default: Date.now
+  answer: {
+    type: String,
+    required: true
   },
   subject: {
     type: Schema.ObjectId,
@@ -72,6 +66,10 @@ var SinglechoiceSchema = new Schema({
   },
   analysis: {
     type: String
+  },
+  created: {
+    type: Date,
+    default: Date.now
   },
   user: {
     type: Schema.ObjectId,

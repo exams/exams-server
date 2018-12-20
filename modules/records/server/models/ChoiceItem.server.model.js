@@ -13,8 +13,7 @@ var ChoiceItemSchema = new Schema({
   label: {
     type: String,
     required: 'Please fill ChoiceItem label',
-    trim: true,
-    upper: true
+    trim: true
   },
   title: {
     type: String,
