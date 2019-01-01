@@ -44,6 +44,10 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
   var user = req.model;
 
+  if (user.roles.contains('Administrator')){
+    return res.status(403).send();
+  }
+
   user.remove(function (err) {
     if (err) {
       return res.status(422).send({

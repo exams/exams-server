@@ -78,6 +78,7 @@ module.exports = {
     collections: [{
       model: 'User',
       docs: [{
+        // overwrite: true,
         data: {
           username: 'local-admin',
           email: 'admin@localhost.com',
@@ -142,6 +143,23 @@ module.exports = {
           "questionNumber": 10
         }
       }
+      ]
+    }, {
+      model: 'Subject',
+      options: { logResults: true },
+      skip: {
+        when: {} // Mongoose qualified query
+      },
+      docs: [
+        {data: { name: "语文", isDefault: true, subjectCode: "chinese"}},
+        {data: { name: "数学", isDefault: true, subjectCode: "mathematics"}},
+        {data: { name: "英语", isDefault: true, subjectCode: "english"}},
+        {data: { name: "物理", isDefault: true, subjectCode: "physical"}},
+        {data: { name: "化学", isDefault: true, subjectCode: "chemistry"}},
+        {data: { name: "生物", isDefault: true, subjectCode: "biological"}},
+        {data: { name: "地理", isDefault: true, subjectCode: "geography"}},
+        {data: { name: "政治", isDefault: true, subjectCode: "political"}},
+        {data: { name: "历史", isDefault: true, subjectCode: "history"}},
       ]
     }]
   }

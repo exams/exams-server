@@ -67,6 +67,28 @@ exports.update = function (req, res) {
 };
 
 /**
+ * Add user
+ */
+exports.add = function (req, res) {
+
+  // delete req.body.roles;
+
+  // Init user and add missing fields
+  var user = new User(req.body);
+  user.provider = 'local';
+  user.displayName = user.firstName + ' ' + user.lastName;
+
+  // Then save the user
+  user.save(function (err) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+  });
+};
+
+/**
  * Update profile picture
  */
 exports.changeProfilePicture = function (req, res) {
