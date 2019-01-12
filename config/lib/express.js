@@ -144,6 +144,7 @@ module.exports.initJwtToken = function (app) {
     }
   });
 };
+
 module.exports.initCsrf = function (app){
   //allow custom header and CORS
   app.all('*', function (req, res, next) {

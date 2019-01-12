@@ -70,20 +70,20 @@ exports.update = function (req, res) {
  * Add user
  */
 exports.add = function (req, res) {
-
-  // delete req.body.roles;
-
   // Init user and add missing fields
   var user = new User(req.body);
   user.provider = 'local';
   user.displayName = user.firstName + ' ' + user.lastName;
 
+  console.log(user)
   // Then save the user
   user.save(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
+    } else {
+      res.json(user);
     }
   });
 };
@@ -236,6 +236,7 @@ exports.me = function (req, res) {
       username: validator.escape(req.user.username),
       created: req.user.created.toString(),
       roles: req.user.roles,
+      subjects: req.user.subjects,
       profileImageURL: req.user.profileImageURL,
       email: validator.escape(req.user.email),
       lastName: validator.escape(req.user.lastName),

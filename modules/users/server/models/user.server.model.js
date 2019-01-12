@@ -113,9 +113,7 @@ var UserSchema = new Schema({
     required: 'Please provide at least one role'
   },
   subjects: {
-    type: [{
-      type: String
-    }],
+    type: Array,
     required: 'Please provide at least one subject'
   },
   updated: {
