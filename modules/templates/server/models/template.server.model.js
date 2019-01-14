@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
  * Template Schema
  */
 var TemplateSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: 'Please fill Template name',
   },

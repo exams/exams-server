@@ -10,9 +10,9 @@ var mongoose = require('mongoose'),
  * Judge Schema
  */
 var JudgeSchema = new Schema({
-  title: {
+  stem: {
     type: String,
-    required: 'Please fill Judge title'
+    required: 'Please fill Judge stem'
   },
   // 年级
   grade: {
@@ -26,12 +26,6 @@ var JudgeSchema = new Schema({
     type: Boolean,
     default: false
   },
-  date: {
-    type: Number,
-    required: function() {
-      return this.isReal;
-    }
-  },
   difficulty: {
     type: Number,
     default: 4,
@@ -40,21 +34,6 @@ var JudgeSchema = new Schema({
   },
   description: {
     type: String
-  },
-  isMixSub: {
-    type: Boolean,
-    default: false
-  },
-  mixing: {
-    type: Schema.ObjectId,
-    ref: 'Mixing',
-    required: function() {
-      return this.isMixSub;
-    }
-  },
-  choiceItems: {
-    type: Array,
-    required: true
   },
   answer: {
     type: String,

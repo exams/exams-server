@@ -10,11 +10,34 @@ var mongoose = require('mongoose'),
  * Mixing Schema
  */
 var MixingSchema = new Schema({
-  name: {
+  stem: {
     type: String,
-    default: '',
-    required: 'Please fill Mixing name',
-    trim: true
+    required: 'Please fill Mixing stem',
+  },
+  // 年级
+  grade: {
+    type: Number
+  },
+  trainPeriod: {
+    type: String,
+    enum: ['Primary', 'Junior', 'Senior', 'Master'] //小学, 初中, 高中, 大学
+  },
+  isReal: {
+    type: Boolean,
+    default: false
+  },
+  difficulty: {
+    type: Number,
+    default: 4,
+    min: 0,
+    max: 5
+  },
+  description: {
+    type: String
+  },
+  subject: {
+    type: Schema.ObjectId,
+    ref: 'Subject'
   },
   created: {
     type: Date,

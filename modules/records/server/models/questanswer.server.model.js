@@ -10,9 +10,9 @@ var mongoose = require('mongoose'),
  * Questanswer Schema
  */
 var QuestanswerSchema = new Schema({
-  title: {
+  stem: {
     type: String,
-    required: 'Please fill Questanswer title'
+    required: 'Please fill Questanswer stem'
   },
   // 年级
   grade: {
@@ -26,12 +26,6 @@ var QuestanswerSchema = new Schema({
     type: Boolean,
     default: false
   },
-  date: {
-    type: Number,
-    required: function() {
-      return this.isReal;
-    }
-  },
   difficulty: {
     type: Number,
     default: 4,
@@ -40,17 +34,6 @@ var QuestanswerSchema = new Schema({
   },
   description: {
     type: String
-  },
-  isMixSub: {
-    type: Boolean,
-    default: false
-  },
-  mixing: {
-    type: Schema.ObjectId,
-    ref: 'Mixing',
-    required: function() {
-      return this.isMixSub;
-    }
   },
   answer: {
     type: String,
