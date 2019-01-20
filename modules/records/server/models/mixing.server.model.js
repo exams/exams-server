@@ -39,6 +39,10 @@ var MixingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Subject'
   },
+  subQuests: {
+    type: Array,
+    required: 'Please add one question',
+  },
   created: {
     type: Date,
     default: Date.now
