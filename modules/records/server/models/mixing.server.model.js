@@ -43,6 +43,10 @@ var MixingSchema = new Schema({
     type: Array,
     required: 'Please add one question',
   },
+  tags: {
+    type: Array,
+    required: 'Please add one tags',
+  },
   created: {
     type: Date,
     default: Date.now

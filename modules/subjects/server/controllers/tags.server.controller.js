@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Tag = mongoose.model('Tag'),
+  url = require('url'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
@@ -81,7 +82,11 @@ exports.delete = function(req, res) {
  * List of Tags
  */
 exports.list = function(req, res) {
-  Tag.find().sort('-created').populate('user', 'displayName').exec(function(err, tags) {
+  var queryParams = url.parse(req.url, true).query
+  var subjectId = mongoose.Types.ObjectId(queryParams.subjectId);
+  var query = {subject: subjectId};
+
+  Tag.find(query).sort('-created').populate('user', 'displayName').exec(function(err, tags) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
