@@ -84,7 +84,15 @@ exports.delete = function(req, res) {
 exports.list = function(req, res) {
   var queryParams = url.parse(req.url, true).query
   var subjectId = mongoose.Types.ObjectId(queryParams.subjectId);
-  var query = {subject: subjectId};
+  var shared = queryParams.shared;
+  
+  var query;
+  if (subjectId && shared==='true')
+    query = {"$or": [{subject: subjectId}, {subject: null}]};
+  else if(subjectId)
+    query = {subject: subjectId};
+  else if(shared==='true')
+    query = {subject: null};
 
   Tag.find(query).sort('-created').populate('user', 'displayName').exec(function(err, tags) {
     if (err) {

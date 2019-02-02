@@ -26,11 +26,7 @@ var TemplateSchema = new Schema({
     type: Boolean,
     default: false
   },
-  isAllTrue: {
-    type: Boolean,
-    default: false
-  },
-  paperStructs: {
+  paparStructs: {
     type: Array
   },
   user: {
