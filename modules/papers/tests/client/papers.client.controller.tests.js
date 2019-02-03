@@ -1,15 +1,15 @@
 (function () {
   'use strict';
 
-  describe('Papars Controller Tests', function () {
+  describe('Papers Controller Tests', function () {
     // Initialize global variables
-    var PaparsController,
+    var PapersController,
       $scope,
       $httpBackend,
       $state,
       Authentication,
-      PaparsService,
-      mockPapar;
+      PapersService,
+      mockPaper;
 
     // The $resource service augments the response object with methods for updating and deleting the resource.
     // If we were to use the standard toEqual matcher, our tests would fail because the test values would not match
@@ -36,7 +36,7 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _PaparsService_) {
+    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _PapersService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
 
@@ -44,12 +44,12 @@
       $httpBackend = _$httpBackend_;
       $state = _$state_;
       Authentication = _Authentication_;
-      PaparsService = _PaparsService_;
+      PapersService = _PapersService_;
 
-      // create mock Papar
-      mockPapar = new PaparsService({
+      // create mock Paper
+      mockPaper = new PapersService({
         _id: '525a8422f6d0f87f0e407a33',
-        name: 'Papar Name'
+        name: 'Paper Name'
       });
 
       // Mock logged in user
@@ -57,10 +57,10 @@
         roles: ['user']
       };
 
-      // Initialize the Papars controller.
-      PaparsController = $controller('PaparsController as vm', {
+      // Initialize the Papers controller.
+      PapersController = $controller('PapersController as vm', {
         $scope: $scope,
-        paparResolve: {}
+        paperResolve: {}
       });
 
       // Spy on state go
@@ -68,34 +68,34 @@
     }));
 
     describe('vm.save() as create', function () {
-      var samplePaparPostData;
+      var samplePaperPostData;
 
       beforeEach(function () {
-        // Create a sample Papar object
-        samplePaparPostData = new PaparsService({
-          name: 'Papar Name'
+        // Create a sample Paper object
+        samplePaperPostData = new PapersService({
+          name: 'Paper Name'
         });
 
-        $scope.vm.papar = samplePaparPostData;
+        $scope.vm.paper = samplePaperPostData;
       });
 
-      it('should send a POST request with the form input values and then locate to new object URL', inject(function (PaparsService) {
+      it('should send a POST request with the form input values and then locate to new object URL', inject(function (PapersService) {
         // Set POST response
-        $httpBackend.expectPOST('api/papars', samplePaparPostData).respond(mockPapar);
+        $httpBackend.expectPOST('api/papers', samplePaperPostData).respond(mockPaper);
 
         // Run controller functionality
         $scope.vm.save(true);
         $httpBackend.flush();
 
-        // Test URL redirection after the Papar was created
-        expect($state.go).toHaveBeenCalledWith('papars.view', {
-          paparId: mockPapar._id
+        // Test URL redirection after the Paper was created
+        expect($state.go).toHaveBeenCalledWith('papers.view', {
+          paperId: mockPaper._id
         });
       }));
 
       it('should set $scope.vm.error if error', function () {
         var errorMessage = 'this is an error message';
-        $httpBackend.expectPOST('api/papars', samplePaparPostData).respond(400, {
+        $httpBackend.expectPOST('api/papers', samplePaperPostData).respond(400, {
           message: errorMessage
         });
 
@@ -108,27 +108,27 @@
 
     describe('vm.save() as update', function () {
       beforeEach(function () {
-        // Mock Papar in $scope
-        $scope.vm.papar = mockPapar;
+        // Mock Paper in $scope
+        $scope.vm.paper = mockPaper;
       });
 
-      it('should update a valid Papar', inject(function (PaparsService) {
+      it('should update a valid Paper', inject(function (PapersService) {
         // Set PUT response
-        $httpBackend.expectPUT(/api\/papars\/([0-9a-fA-F]{24})$/).respond();
+        $httpBackend.expectPUT(/api\/papers\/([0-9a-fA-F]{24})$/).respond();
 
         // Run controller functionality
         $scope.vm.save(true);
         $httpBackend.flush();
 
         // Test URL location to new object
-        expect($state.go).toHaveBeenCalledWith('papars.view', {
-          paparId: mockPapar._id
+        expect($state.go).toHaveBeenCalledWith('papers.view', {
+          paperId: mockPaper._id
         });
       }));
 
-      it('should set $scope.vm.error if error', inject(function (PaparsService) {
+      it('should set $scope.vm.error if error', inject(function (PapersService) {
         var errorMessage = 'error';
-        $httpBackend.expectPUT(/api\/papars\/([0-9a-fA-F]{24})$/).respond(400, {
+        $httpBackend.expectPUT(/api\/papers\/([0-9a-fA-F]{24})$/).respond(400, {
           message: errorMessage
         });
 
@@ -141,23 +141,23 @@
 
     describe('vm.remove()', function () {
       beforeEach(function () {
-        // Setup Papars
-        $scope.vm.papar = mockPapar;
+        // Setup Papers
+        $scope.vm.paper = mockPaper;
       });
 
-      it('should delete the Papar and redirect to Papars', function () {
+      it('should delete the Paper and redirect to Papers', function () {
         // Return true on confirm message
         spyOn(window, 'confirm').and.returnValue(true);
 
-        $httpBackend.expectDELETE(/api\/papars\/([0-9a-fA-F]{24})$/).respond(204);
+        $httpBackend.expectDELETE(/api\/papers\/([0-9a-fA-F]{24})$/).respond(204);
 
         $scope.vm.remove();
         $httpBackend.flush();
 
-        expect($state.go).toHaveBeenCalledWith('papars.list');
+        expect($state.go).toHaveBeenCalledWith('papers.list');
       });
 
-      it('should should not delete the Papar and not redirect', function () {
+      it('should should not delete the Paper and not redirect', function () {
         // Return false on confirm message
         spyOn(window, 'confirm').and.returnValue(false);
 

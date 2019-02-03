@@ -5,113 +5,113 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
-  Papar = mongoose.model('Papar'),
+  Paper = mongoose.model('Paper'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
 /**
- * Create a Papar
+ * Create a Paper
  */
 exports.create = function(req, res) {
-  var papar = new Papar(req.body);
-  papar.user = req.user;
+  var paper = new Paper(req.body);
+  paper.user = req.user;
 
-  papar.save(function(err) {
+  paper.save(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(papar);
+      res.jsonp(paper);
     }
   });
 };
 
 /**
- * Show the current Papar
+ * Show the current Paper
  */
 exports.read = function(req, res) {
   // convert mongoose document to JSON
-  var papar = req.papar ? req.papar.toJSON() : {};
+  var paper = req.paper ? req.paper.toJSON() : {};
 
   // Add a custom field to the Article, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Article model.
-  papar.isCurrentUserOwner = req.user && papar.user && papar.user._id.toString() === req.user._id.toString();
+  paper.isCurrentUserOwner = req.user && paper.user && paper.user._id.toString() === req.user._id.toString();
 
-  res.jsonp(papar);
+  res.jsonp(paper);
 };
 
 /**
- * Update a Papar
+ * Update a Paper
  */
 exports.update = function(req, res) {
-  var papar = req.papar;
+  var paper = req.paper;
 
-  papar = _.extend(papar, req.body);
+  paper = _.extend(paper, req.body);
 
-  papar.save(function(err) {
+  paper.save(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(papar);
+      res.jsonp(paper);
     }
   });
 };
 
 /**
- * Delete an Papar
+ * Delete an Paper
  */
 exports.delete = function(req, res) {
-  var papar = req.papar;
+  var paper = req.paper;
 
-  papar.remove(function(err) {
+  paper.remove(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(papar);
+      res.jsonp(paper);
     }
   });
 };
 
 /**
- * List of Papars
+ * List of Papers
  */
 exports.list = function(req, res) {
-  Papar.find().sort('-created').populate('user', 'displayName').exec(function(err, papars) {
+  Paper.find().sort('-created').populate('user', 'displayName').exec(function(err, papers) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(papars);
+      res.jsonp(papers);
     }
   });
 };
 
 /**
- * Papar middleware
+ * Paper middleware
  */
-exports.paparByID = function(req, res, next, id) {
+exports.paperByID = function(req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Papar is invalid'
+      message: 'Paper is invalid'
     });
   }
 
-  Papar.findById(id).populate('user', 'displayName').exec(function (err, papar) {
+  Paper.findById(id).populate('user', 'displayName').exec(function (err, paper) {
     if (err) {
       return next(err);
-    } else if (!papar) {
+    } else if (!paper) {
       return res.status(404).send({
-        message: 'No Papar with that identifier has been found'
+        message: 'No Paper with that identifier has been found'
       });
     }
-    req.papar = papar;
+    req.paper = paper;
     next();
   });
 };

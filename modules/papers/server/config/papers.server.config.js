@@ -7,7 +7,7 @@ var path = require('path'),
   config = require(path.resolve('./config/config'));
 
 /**
- * Papars module init function.
+ * Papers module init function.
  */
 module.exports = function (app, db) {
 

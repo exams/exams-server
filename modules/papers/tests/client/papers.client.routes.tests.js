@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  describe('Papars Route Tests', function () {
+  describe('Papers Route Tests', function () {
     // Initialize global variables
     var $scope,
-      PaparsService;
+      PapersService;
 
     // We can start by loading the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
@@ -12,21 +12,21 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($rootScope, _PaparsService_) {
+    beforeEach(inject(function ($rootScope, _PapersService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
-      PaparsService = _PaparsService_;
+      PapersService = _PapersService_;
     }));
 
     describe('Route Config', function () {
       describe('Main Route', function () {
         var mainstate;
         beforeEach(inject(function ($state) {
-          mainstate = $state.get('papars');
+          mainstate = $state.get('papers');
         }));
 
         it('Should have the correct URL', function () {
-          expect(mainstate.url).toEqual('/papars');
+          expect(mainstate.url).toEqual('/papers');
         });
 
         it('Should be abstract', function () {
@@ -40,43 +40,43 @@
 
       describe('View Route', function () {
         var viewstate,
-          PaparsController,
-          mockPapar;
+          PapersController,
+          mockPaper;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          viewstate = $state.get('papars.view');
-          $templateCache.put('modules/papars/client/views/view-papar.client.view.html', '');
+          viewstate = $state.get('papers.view');
+          $templateCache.put('modules/papers/client/views/view-paper.client.view.html', '');
 
-          // create mock Papar
-          mockPapar = new PaparsService({
+          // create mock Paper
+          mockPaper = new PapersService({
             _id: '525a8422f6d0f87f0e407a33',
-            name: 'Papar Name'
+            name: 'Paper Name'
           });
 
           // Initialize Controller
-          PaparsController = $controller('PaparsController as vm', {
+          PapersController = $controller('PapersController as vm', {
             $scope: $scope,
-            paparResolve: mockPapar
+            paperResolve: mockPaper
           });
         }));
 
         it('Should have the correct URL', function () {
-          expect(viewstate.url).toEqual('/:paparId');
+          expect(viewstate.url).toEqual('/:paperId');
         });
 
         it('Should have a resolve function', function () {
           expect(typeof viewstate.resolve).toEqual('object');
-          expect(typeof viewstate.resolve.paparResolve).toEqual('function');
+          expect(typeof viewstate.resolve.paperResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
           expect($state.href(viewstate, {
-            paparId: 1
-          })).toEqual('/papars/1');
+            paperId: 1
+          })).toEqual('/papers/1');
         }));
 
-        it('should attach an Papar to the controller scope', function () {
-          expect($scope.vm.papar._id).toBe(mockPapar._id);
+        it('should attach an Paper to the controller scope', function () {
+          expect($scope.vm.paper._id).toBe(mockPaper._id);
         });
 
         it('Should not be abstract', function () {
@@ -84,26 +84,26 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(viewstate.templateUrl).toBe('modules/papars/client/views/view-papar.client.view.html');
+          expect(viewstate.templateUrl).toBe('modules/papers/client/views/view-paper.client.view.html');
         });
       });
 
       describe('Create Route', function () {
         var createstate,
-          PaparsController,
-          mockPapar;
+          PapersController,
+          mockPaper;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          createstate = $state.get('papars.create');
-          $templateCache.put('modules/papars/client/views/form-papar.client.view.html', '');
+          createstate = $state.get('papers.create');
+          $templateCache.put('modules/papers/client/views/form-paper.client.view.html', '');
 
-          // create mock Papar
-          mockPapar = new PaparsService();
+          // create mock Paper
+          mockPaper = new PapersService();
 
           // Initialize Controller
-          PaparsController = $controller('PaparsController as vm', {
+          PapersController = $controller('PapersController as vm', {
             $scope: $scope,
-            paparResolve: mockPapar
+            paperResolve: mockPaper
           });
         }));
 
@@ -113,16 +113,16 @@
 
         it('Should have a resolve function', function () {
           expect(typeof createstate.resolve).toEqual('object');
-          expect(typeof createstate.resolve.paparResolve).toEqual('function');
+          expect(typeof createstate.resolve.paperResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
-          expect($state.href(createstate)).toEqual('/papars/create');
+          expect($state.href(createstate)).toEqual('/papers/create');
         }));
 
-        it('should attach an Papar to the controller scope', function () {
-          expect($scope.vm.papar._id).toBe(mockPapar._id);
-          expect($scope.vm.papar._id).toBe(undefined);
+        it('should attach an Paper to the controller scope', function () {
+          expect($scope.vm.paper._id).toBe(mockPaper._id);
+          expect($scope.vm.paper._id).toBe(undefined);
         });
 
         it('Should not be abstract', function () {
@@ -130,49 +130,49 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(createstate.templateUrl).toBe('modules/papars/client/views/form-papar.client.view.html');
+          expect(createstate.templateUrl).toBe('modules/papers/client/views/form-paper.client.view.html');
         });
       });
 
       describe('Edit Route', function () {
         var editstate,
-          PaparsController,
-          mockPapar;
+          PapersController,
+          mockPaper;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          editstate = $state.get('papars.edit');
-          $templateCache.put('modules/papars/client/views/form-papar.client.view.html', '');
+          editstate = $state.get('papers.edit');
+          $templateCache.put('modules/papers/client/views/form-paper.client.view.html', '');
 
-          // create mock Papar
-          mockPapar = new PaparsService({
+          // create mock Paper
+          mockPaper = new PapersService({
             _id: '525a8422f6d0f87f0e407a33',
-            name: 'Papar Name'
+            name: 'Paper Name'
           });
 
           // Initialize Controller
-          PaparsController = $controller('PaparsController as vm', {
+          PapersController = $controller('PapersController as vm', {
             $scope: $scope,
-            paparResolve: mockPapar
+            paperResolve: mockPaper
           });
         }));
 
         it('Should have the correct URL', function () {
-          expect(editstate.url).toEqual('/:paparId/edit');
+          expect(editstate.url).toEqual('/:paperId/edit');
         });
 
         it('Should have a resolve function', function () {
           expect(typeof editstate.resolve).toEqual('object');
-          expect(typeof editstate.resolve.paparResolve).toEqual('function');
+          expect(typeof editstate.resolve.paperResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
           expect($state.href(editstate, {
-            paparId: 1
-          })).toEqual('/papars/1/edit');
+            paperId: 1
+          })).toEqual('/papers/1/edit');
         }));
 
-        it('should attach an Papar to the controller scope', function () {
-          expect($scope.vm.papar._id).toBe(mockPapar._id);
+        it('should attach an Paper to the controller scope', function () {
+          expect($scope.vm.paper._id).toBe(mockPaper._id);
         });
 
         it('Should not be abstract', function () {
@@ -180,7 +180,7 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(editstate.templateUrl).toBe('modules/papars/client/views/form-papar.client.view.html');
+          expect(editstate.templateUrl).toBe('modules/papers/client/views/form-paper.client.view.html');
         });
 
         xit('Should go to unauthorized route', function () {

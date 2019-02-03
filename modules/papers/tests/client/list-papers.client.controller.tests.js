@@ -1,15 +1,15 @@
 (function () {
   'use strict';
 
-  describe('Papars List Controller Tests', function () {
+  describe('Papers List Controller Tests', function () {
     // Initialize global variables
-    var PaparsListController,
+    var PapersListController,
       $scope,
       $httpBackend,
       $state,
       Authentication,
-      PaparsService,
-      mockPapar;
+      PapersService,
+      mockPaper;
 
     // The $resource service augments the response object with methods for updating and deleting the resource.
     // If we were to use the standard toEqual matcher, our tests would fail because the test values would not match
@@ -36,7 +36,7 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _PaparsService_) {
+    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _PapersService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
 
@@ -44,12 +44,12 @@
       $httpBackend = _$httpBackend_;
       $state = _$state_;
       Authentication = _Authentication_;
-      PaparsService = _PaparsService_;
+      PapersService = _PapersService_;
 
       // create mock article
-      mockPapar = new PaparsService({
+      mockPaper = new PapersService({
         _id: '525a8422f6d0f87f0e407a33',
-        name: 'Papar Name'
+        name: 'Paper Name'
       });
 
       // Mock logged in user
@@ -57,8 +57,8 @@
         roles: ['user']
       };
 
-      // Initialize the Papars List controller.
-      PaparsListController = $controller('PaparsListController as vm', {
+      // Initialize the Papers List controller.
+      PapersListController = $controller('PapersListController as vm', {
         $scope: $scope
       });
 
@@ -67,23 +67,23 @@
     }));
 
     describe('Instantiate', function () {
-      var mockPaparList;
+      var mockPaperList;
 
       beforeEach(function () {
-        mockPaparList = [mockPapar, mockPapar];
+        mockPaperList = [mockPaper, mockPaper];
       });
 
-      it('should send a GET request and return all Papars', inject(function (PaparsService) {
+      it('should send a GET request and return all Papers', inject(function (PapersService) {
         // Set POST response
-        $httpBackend.expectGET('api/papars').respond(mockPaparList);
+        $httpBackend.expectGET('api/papers').respond(mockPaperList);
 
 
         $httpBackend.flush();
 
         // Test form inputs are reset
-        expect($scope.vm.papars.length).toEqual(2);
-        expect($scope.vm.papars[0]).toEqual(mockPapar);
-        expect($scope.vm.papars[1]).toEqual(mockPapar);
+        expect($scope.vm.papers.length).toEqual(2);
+        expect($scope.vm.papers[0]).toEqual(mockPaper);
+        expect($scope.vm.papers[1]).toEqual(mockPaper);
 
       }));
     });

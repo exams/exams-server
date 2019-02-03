@@ -7,9 +7,9 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * Papar Schema
+ * Paper Schema
  */
-var PaparSchema = new Schema({
+var PaperSchema = new Schema({
   title: {
     type: String,
     required: 'Please fill Papar title',
@@ -18,7 +18,6 @@ var PaparSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Subject'
   },
-  
   created: {
     type: Date,
     default: Date.now
@@ -29,4 +28,4 @@ var PaparSchema = new Schema({
   }
 });
 
-mongoose.model('Papar', PaparSchema);
+mongoose.model('Paper', PaperSchema);

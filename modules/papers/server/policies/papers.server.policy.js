@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Papars Permissions
+ * Invoke Papers Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/papars',
+      resources: '/api/papers',
       permissions: '*'
     }, {
-      resources: '/api/papars/:paparId',
+      resources: '/api/papers/:paperId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/papars',
+      resources: '/api/papers',
       permissions: ['get', 'post']
     }, {
-      resources: '/api/papars/:paparId',
+      resources: '/api/papers/:paperId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/papars',
+      resources: '/api/papers',
       permissions: ['get']
     }, {
-      resources: '/api/papars/:paparId',
+      resources: '/api/papers/:paperId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Papars Policy Allows
+ * Check If Papers Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an Papar is being processed and the current user created it then allow any manipulation
-  if (req.papar && req.user && req.papar.user && req.papar.user.id === req.user.id) {
+  // If an Paper is being processed and the current user created it then allow any manipulation
+  if (req.paper && req.user && req.paper.user && req.paper.user.id === req.user.id) {
     return next();
   }
 
