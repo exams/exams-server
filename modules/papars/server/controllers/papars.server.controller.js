@@ -5,126 +5,113 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
-  Tag = mongoose.model('Tag'),
-  url = require('url'),
+  Papar = mongoose.model('Papar'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
 /**
- * Create a Tag
+ * Create a Papar
  */
 exports.create = function(req, res) {
-  var tag = new Tag(req.body);
-  tag.user = req.user;
+  var papar = new Papar(req.body);
+  papar.user = req.user;
 
-  tag.save(function(err) {
+  papar.save(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(tag);
+      res.jsonp(papar);
     }
   });
 };
 
 /**
- * Show the current Tag
+ * Show the current Papar
  */
 exports.read = function(req, res) {
   // convert mongoose document to JSON
-  var tag = req.tag ? req.tag.toJSON() : {};
+  var papar = req.papar ? req.papar.toJSON() : {};
 
   // Add a custom field to the Article, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Article model.
-  tag.isCurrentUserOwner = req.user && tag.user && tag.user._id.toString() === req.user._id.toString();
+  papar.isCurrentUserOwner = req.user && papar.user && papar.user._id.toString() === req.user._id.toString();
 
-  res.jsonp(tag);
+  res.jsonp(papar);
 };
 
 /**
- * Update a Tag
+ * Update a Papar
  */
 exports.update = function(req, res) {
-  var tag = req.tag;
+  var papar = req.papar;
 
-  tag = _.extend(tag, req.body);
+  papar = _.extend(papar, req.body);
 
-  tag.save(function(err) {
+  papar.save(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(tag);
+      res.jsonp(papar);
     }
   });
 };
 
 /**
- * Delete an Tag
+ * Delete an Papar
  */
 exports.delete = function(req, res) {
-  var tag = req.tag;
+  var papar = req.papar;
 
-  tag.remove(function(err) {
+  papar.remove(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(tag);
+      res.jsonp(papar);
     }
   });
 };
 
 /**
- * List of Tags
+ * List of Papars
  */
 exports.list = function(req, res) {
-  var queryParams = url.parse(req.url, true).query
-  var subjectId = mongoose.Types.ObjectId(queryParams.subjectId);
-  var shared = queryParams.shared;
-
-  var query;
-  if (subjectId && shared==='true')
-    query = {"$or": [{subject: subjectId}, {subject: null}]};
-  else if(subjectId)
-    query = {subject: subjectId};
-  else if(shared==='true')
-    query = {subject: null};
-
-  Tag.find(query).sort('-created').populate('user', 'displayName').exec(function(err, tags) {
+  Papar.find().sort('-created').populate('user', 'displayName').exec(function(err, papars) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(tags);
+      res.jsonp(papars);
     }
   });
 };
 
 /**
- * Tag middleware
+ * Papar middleware
  */
-exports.tagByID = function(req, res, next, id) {
+exports.paparByID = function(req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Tag is invalid'
+      message: 'Papar is invalid'
     });
   }
 
-  Tag.findById(id).populate('user', 'displayName').exec(function (err, tag) {
+  Papar.findById(id).populate('user', 'displayName').exec(function (err, papar) {
     if (err) {
       return next(err);
-    } else if (!tag) {
+    } else if (!papar) {
       return res.status(404).send({
-        message: 'No Tag with that identifier has been found'
+        message: 'No Papar with that identifier has been found'
       });
     }
-    req.tag = tag;
+    req.papar = papar;
     next();
   });
 };
