@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Todos Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/todos',
       permissions: '*'
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/todos/:todoId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/paperTemplates',
-      permissions: ['get']
+      resources: '/api/todos',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/todos/:todoId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/paperTemplates',
+      resources: '/api/todos',
       permissions: ['get']
     }, {
-      resources: '/api/paperTemplates/:paperTemplateId',
+      resources: '/api/todos/:todoId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Todos Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an paperTemplate is being processed and the current user created it then allow any manipulation
-  if (req.paperTemplate && req.user && req.paperTemplate.userId === req.user.id) {
+  // If an Todo is being processed and the current user created it then allow any manipulation
+  if (req.todo && req.user && req.todo.user && req.todo.user.id === req.user.id) {
     return next();
   }
 

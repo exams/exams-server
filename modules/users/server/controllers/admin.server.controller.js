@@ -44,7 +44,7 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
   var user = req.model;
 
-  if (user.roles.contains('Administrator')){
+  if (user.roles.indexOf('Administrator') > 0){
     return res.status(403).send();
   }
 

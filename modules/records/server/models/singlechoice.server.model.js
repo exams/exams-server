@@ -42,6 +42,10 @@ var SinglechoiceSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  random: {
+    type: Number,
+    default: Math.random().toFixed(2)
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

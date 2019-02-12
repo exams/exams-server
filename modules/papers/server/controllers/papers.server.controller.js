@@ -6,15 +6,84 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Paper = mongoose.model('Paper'),
+  Singlechoice = mongoose.model('Singlechoice'),
+  Multichoice = mongoose.model('Multichoice'),
+  Questanswer = mongoose.model('Questanswer'),
+  Blank = mongoose.model('Blank'),
+  Judge = mongoose.model('Judge'),
+  Mixing = mongoose.model('Mixing'),
+
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
+
+var querySingleChoice = function(questsSet){
+  var query= {};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query = {singleChoice: {"$all": tags}};
+  }
+  Singlechoice.find(query).limit(questsSet.number).exec(function(err, singlechoices) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = singlechoices;
+    }
+  });
+}
+
+var queryMultiChoice = function(questsSet){
+
+}
+
+var queryBlank = function(questsSet){
+
+}
+
+var queryeJudge = function(questsSet){
+
+}
+
+var queryQuestAnswer = function(questsSet){
+
+}
+
+var queryMixing = function(questsSet){
+
+}
 /**
  * Create a Paper
  */
 exports.create = function(req, res) {
-  var paper = new Paper(req.body);
+  var template = req.body;
+  var paper = new Paper();
+  paper.title = template.title;
+  paper.subject = template.subject;
   paper.user = req.user;
+
+  var paperStructs = template.paperStructs;
+
+  var questions = [];
+  for(var index in paperStructs) {
+    var questsSet = paperStructs[index];
+
+    if (questsSet.questType === 'singleChoice'){
+      querySingleChoice(questsSet);
+    } else if (questsSet.questType === 'multiChoice'){
+      queryMultiChoice(questsSet);
+    } else if (questsSet.questType === 'blank'){
+      queryBlank(questsSet);
+    } else if (questsSet.questType === 'judge'){
+      queryeJudge(questsSet);
+    } else if (questsSet.questType === 'questAnswer'){
+      queryQuestAnswer(questsSet);
+    } else if (questsSet.questType === 'mixing'){
+      queryMixing(questsSet);
+    }
+
+    questions.push(questsSet);
+  }
+  paper.questions = questions;
 
   paper.save(function(err) {
     if (err) {
@@ -26,6 +95,7 @@ exports.create = function(req, res) {
     }
   });
 };
+
 
 /**
  * Show the current Paper

@@ -7,23 +7,18 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * Paper Schema
+ * Todo Schema
  */
-var PaperSchema = new Schema({
-  title: {
+var TodoSchema = new Schema({
+  name: {
     type: String,
-    required: 'Please fill Paper title',
-  },
-  subject: {
-    type: Schema.ObjectId,
-    ref: 'Subject'
+    default: '',
+    required: 'Please fill Todo name',
+    trim: true
   },
   created: {
     type: Date,
     default: Date.now
-  },
-  questions: {
-    type: Array
   },
   user: {
     type: Schema.ObjectId,
@@ -31,4 +26,4 @@ var PaperSchema = new Schema({
   }
 });
 
-mongoose.model('Paper', PaperSchema);
+mongoose.model('Todo', TodoSchema);

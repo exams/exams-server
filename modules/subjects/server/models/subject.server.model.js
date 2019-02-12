@@ -14,9 +14,8 @@ var SubjectSchema = new Schema({
     type: String,
     required: 'Please fill Subject name'
   },
-  subjectCode: {
-    type: String,
-    required: 'Please fill Subject Code'
+  code: {
+    type: String
   },
   isDefault: {
     type: Boolean,
