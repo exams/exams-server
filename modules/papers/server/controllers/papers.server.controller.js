@@ -18,10 +18,10 @@ var path = require('path'),
 
 
 var querySingleChoice = function(questsSet){
-  var query= {};
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
   var tags = questsSet.tags;
   if (tags.length >  0){
-    query = {singleChoice: {"$all": tags}};
+    query.tags = {"$all": tags};
   }
   Singlechoice.find(query).limit(questsSet.number).exec(function(err, singlechoices) {
     if (err) {
@@ -33,23 +33,78 @@ var querySingleChoice = function(questsSet){
 }
 
 var queryMultiChoice = function(questsSet){
-
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query.tags = {"$all": tags};
+  }
+  Multichoice.find(query).limit(questsSet.number).exec(function(err, multichoices) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = multichoices;
+    }
+  });
 }
 
 var queryBlank = function(questsSet){
-
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query.tags = {"$all": tags};
+  }
+  Blank.find(query).limit(questsSet.number).exec(function(err, blanks) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = blanks;
+    }
+  });
 }
 
 var queryeJudge = function(questsSet){
-
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query.tags = {"$all": tags};
+  }
+  Judge.find(query).limit(questsSet.number).exec(function(err, judges) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = judges;
+    }
+  });
 }
 
 var queryQuestAnswer = function(questsSet){
-
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query.tags = {"$all": tags};
+  }
+  Questanswer.find(query).limit(questsSet.number).exec(function(err, questanswers) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = questanswers;
+    }
+  });
 }
 
 var queryMixing = function(questsSet){
-
+  var query= {random: {$near: [Math.random().toFixed(2), Math.random().toFixed(2)]}};
+  var tags = questsSet.tags;
+  if (tags.length >  0){
+    query.tags = {"$all": tags};
+  }
+  Mixing.find(query).limit(questsSet.number).exec(function(err, mixings) {
+    if (err) {
+      console.log(err);
+    } else {
+      questsSet.questions = mixings;
+    }
+  });
 }
 /**
  * Create a Paper

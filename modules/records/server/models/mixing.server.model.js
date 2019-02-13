@@ -40,8 +40,9 @@ var MixingSchema = new Schema({
     default: Date.now
   },
   random: {
-    type: Number,
-    default: Math.random().toFixed(2)
+    type: [Number],
+    index: '2d',
+    default: [Math.random().toFixed(2), Math.random().toFixed(2)]
   },
   user: {
     type: Schema.ObjectId,
