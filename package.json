@@ -94,6 +94,7 @@
     "passport-local": "~1.0.0",
     "passport-paypal-openidconnect": "^0.1.1",
     "passport-twitter": "~1.0.4",
+    "promise": "^8.0.2",
     "run-sequence": "~2.1.0",
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3",
