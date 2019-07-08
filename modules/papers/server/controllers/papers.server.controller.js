@@ -44,6 +44,7 @@ exports.create = function(req, res) {
     var difficulty = parseFloat(questsSet.difficulty);
     query.difficulty = {$gte: difficulty-1, $lte: difficulty+1};
     var tags = questsSet.tags;
+
     if (tags.length >  0){
       query.tags = {"$all": tags};
     }

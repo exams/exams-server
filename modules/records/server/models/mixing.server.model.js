@@ -28,8 +28,7 @@ var MixingSchema = new Schema({
     ref: 'Subject'
   },
   subQuests: {
-    type: Array,
-    required: 'Please add one question',
+    type: Array
   },
   tags: {
     type: Array,

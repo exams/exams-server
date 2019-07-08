@@ -158,7 +158,8 @@ module.exports.initCsrf = function (app){
       next();
     }
   });
-}
+};
+
 /**
  * Invoke modules server configuration
  */

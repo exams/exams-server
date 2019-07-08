@@ -114,7 +114,8 @@ var UserSchema = new Schema({
   },
   subjects: {
     type: Array,
-    required: 'Please provide at least one subject'
+    required: 'Please provide at least one subject',
+    default: []
   },
   updated: {
     type: Date
